@@ -1,0 +1,22 @@
+services:
+  ringo:
+    build:
+      context: .
+    image: local/ringo-qc:0.9.4
+    container_name: ringo-qc
+    user: "1000:1000"                # fichiers générés en 1000:1000
+    environment:
+      SERVE: "1"                     # serveur HTTP actif par défaut
+      CSV: "0"                       # CSV désactivés par défaut
+      PUID: "1000"
+      PGID: "1000"
+      AUTO_NAV: "1"                  # active l'auto-téléchargement NAV
+      VERBOSE: "1"                   # logs verbeux utiles
+      NAV_BASE_URL: "https://igs.bkg.bund.de/root_ftp/IGS"
+      NAV_PREFER: "BRDC"             # on privilégie BRDC d'abord
+      BRDC_CANDS_ORDER: "WRD,IGS"    # essaie WRD puis IGS (WRD est 200 OK chez toi)
+    volumes:
+      - ./data:/data:rw
+    ports:
+      - "8081:8080"
+
